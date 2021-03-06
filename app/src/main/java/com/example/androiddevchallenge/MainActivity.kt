@@ -29,11 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.example.androiddevchallenge.ui.screens.countdownScreen.CountdownScreen
-import com.example.androiddevchallenge.ui.screens.durationSelectionScreen.Duration
 import com.example.androiddevchallenge.ui.screens.durationSelectionScreen.DurationSelectionScreen
 import com.example.androiddevchallenge.ui.theme.MyTheme
-import java.util.*
-
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +61,6 @@ fun MyApp() {
             selectedDuration = it
         }
     }
-
 }
 
 val LocalBackPressedDispatcher =

@@ -63,7 +63,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.util.*
+import java.util.Date
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
@@ -489,7 +489,6 @@ private fun drawText(
         outerText
     )
 }
-
 
 private fun Float.getOffset(angle: Double): Offset =
     Offset((this * cos(angle)).toFloat(), (this * sin(angle)).toFloat())
