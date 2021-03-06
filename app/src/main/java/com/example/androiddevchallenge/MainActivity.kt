@@ -16,21 +16,35 @@
 package com.example.androiddevchallenge
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
+import com.example.androiddevchallenge.ui.screens.countdownScreen.CountdownScreen
+import com.example.androiddevchallenge.ui.screens.durationSelectionScreen.Duration
+import com.example.androiddevchallenge.ui.screens.durationSelectionScreen.DurationSelectionScreen
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                MyApp()
+                CompositionLocalProvider(
+                    LocalBackPressedDispatcher provides this.onBackPressedDispatcher
+                ) {
+                    MyApp()
+                }
             }
         }
     }
@@ -40,22 +54,17 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun MyApp() {
     Surface(color = MaterialTheme.colors.background) {
-        Text(text = "Ready... Set... GO!")
+        var selectedDuration by remember { mutableStateOf<Date?>(null) }
+        selectedDuration?.let {
+            CountdownScreen(it) {
+                selectedDuration = null
+            }
+        } ?: DurationSelectionScreen {
+            selectedDuration = it
+        }
     }
+
 }
 
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun LightPreview() {
-    MyTheme {
-        MyApp()
-    }
-}
-
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun DarkPreview() {
-    MyTheme(darkTheme = true) {
-        MyApp()
-    }
-}
+val LocalBackPressedDispatcher =
+    staticCompositionLocalOf<OnBackPressedDispatcher> { error("No Back Dispatcher provided") }
